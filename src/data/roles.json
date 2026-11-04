@@ -1,0 +1,75 @@
+[
+  {
+    "id": 1,
+    "title": "Soporte de Gente Envasado",
+    "areaInfo": "Soportes · Gente · Full Time",
+    "responsable": "Tapia Jofre, Maria Elena",
+    "areaTag": "Envasado",
+    "statusTag": "25% VIGENTE",
+    "statusColor": "text-red-700 bg-red-100 border-red-200",
+
+    "documents": [
+      {
+        "type": "JOB DESCRIPTION",
+        "status": "En revisión",
+        "date": "07/09/2026",
+        "isGreen": false
+      },
+      {
+        "type": "PLAN DE INDUCCIÓN",
+        "status": "En revisión",
+        "date": "09/06/2025",
+        "isGreen": false
+      },
+      {
+        "type": "MI AGENDA DE ROL",
+        "status": "Vigente",
+        "date": "26/07/2026",
+        "isGreen": true
+      },
+      {
+        "type": "DIARIO DE BORDO",
+        "status": "En revisión",
+        "date": "26/05/2025",
+        "isGreen": false
+      }
+    ]
+  },
+
+  {
+    "id": 2,
+    "title": "Soporte de Gestión en Elaboración",
+    "areaInfo": "Soportes · Gestión · Full Time",
+    "responsable": "Vigo, Nicolas Agustin",
+    "areaTag": "Elaboración",
+    "statusTag": "50% VIGENTE",
+    "statusColor": "text-amber-700 bg-amber-100 border-amber-200",
+
+    "documents": [
+      {
+        "type": "JOB DESCRIPTION",
+        "status": "En revisión",
+        "date": "07/03/2022",
+        "isGreen": false
+      },
+      {
+        "type": "PLAN DE INDUCCIÓN",
+        "status": "Vigente",
+        "date": "30/06/2025",
+        "isGreen": true
+      },
+      {
+        "type": "MI AGENDA DE ROL",
+        "status": "Vigente",
+        "date": "26/07/2026",
+        "isGreen": true
+      },
+      {
+        "type": "DIARIO DE BORDO",
+        "status": "En revisión",
+        "date": "26/08/2026",
+        "isGreen": false
+      }
+    ]
+  }
+]
