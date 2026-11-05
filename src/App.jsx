@@ -1,5 +1,18 @@
-import React from 'react';
-import { Search, Settings, User, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  Search,
+  Settings,
+  User,
+  ChevronRight,
+  Home,
+  Users,
+  BookOpen,
+  Calendar,
+  ClipboardList,
+  BarChart3,
+  Menu,
+  Shield
+} from 'lucide-react';
 
 import bannerInicial from './assets/branding/banner-inicial.png';
 import bannerFinal from './assets/branding/banner-final.png';
@@ -14,16 +27,107 @@ import diarioBtn from './assets/botones/diario-a-bordo.png';
 
 import rolesData from './data/roles.json';
 
-// Constantes de colores corporativos
-const COLORS = {
-  blue: '#00204a',
-  yellow: '#ffcc00',
-  black: '#111111',
-  white: '#ffffff',
-  lightGray: '#f3f4f6',
-};
-
 // --- COMPONENTES DE LA PÁGINA ---
+
+const Sidebar = ({
+  currentView,
+  setCurrentView,
+  sidebarOpen,
+  setSidebarOpen,
+}) => {
+  return (
+    <aside
+      className={`
+      bg-[#00204a]
+      text-white
+      min-h-screen
+      fixed
+      left-0
+      top-0
+      shadow-xl
+      transition-all
+      duration-300
+      ${sidebarOpen ? 'w-64' : 'w-20'}
+    `}
+    >
+      <div className="p-6 border-b border-white/20">
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="mb-4"
+      >
+        <Menu />
+      </button>
+        {sidebarOpen && (
+          <>
+            <h2 className="font-bold text-xl">
+              People Supply
+            </h2>
+
+            <p className="text-xs text-gray-300 mt-1">
+              Roles & Responsabilidades
+            </p>
+          </>
+        )}
+
+      </div>
+
+      <nav className="p-4 space-y-2">
+
+        <button
+          onClick={() => setCurrentView(VIEWS.HOME)}
+          className={`w-full flex items-center gap-3 p-3 rounded ${
+            currentView === VIEWS.HOME
+              ? 'bg-white text-[#00204a]'
+              : 'hover:bg-white/10'
+          }`}
+        >
+          <Home size={18} />
+          {sidebarOpen && 'Inicio'}
+        </button>
+
+        <button
+          onClick={() => setCurrentView(VIEWS.ROLES)}
+          className={`w-full flex items-center gap-3 p-3 rounded ${
+            currentView === VIEWS.ROLES
+              ? 'bg-white text-[#00204a]'
+              : 'hover:bg-white/10'
+          }`}
+        >
+          <Users size={18} />
+          {sidebarOpen && 'Roles'}  
+        </button>
+
+        
+
+        <button className="w-full flex items-center gap-3 p-3 rounded hover:bg-white/10">
+          <BarChart3 size={18} />
+          {sidebarOpen && 'Indicadores'}
+        </button>
+
+      </nav>
+
+
+      <div className="mt-auto border-t border-white/20 p-4">
+
+        <button className="w-full flex items-center gap-3 p-3 rounded hover:bg-white/10">
+          <Search size={18} />
+          {sidebarOpen && 'Buscar'}
+        </button>
+
+        <button className="w-full flex items-center gap-3 p-3 rounded hover:bg-white/10">
+          <Settings size={18} />
+          {sidebarOpen && 'Configuración'}
+        </button>
+
+        <button className="w-full flex items-center gap-3 p-3 rounded hover:bg-white/10">
+          <User size={18} />
+          {sidebarOpen && 'Mi Perfil'}
+        </button>
+
+      </div>
+    </aside>
+  );
+};
 
 const Navbar = () => (
   <nav className="bg-[#00204a] text-white flex flex-col md:flex-row items-center justify-between px-6 py-3 sticky top-0 z-50 shadow-md">
@@ -38,59 +142,7 @@ const Navbar = () => (
     </div>
 
     <div className="flex items-center space-x-4 md:space-x-8 text-sm font-medium">
-      <div className="hidden lg:flex space-x-6">
-        <a href="#" className="border-b-2 border-white pb-1">
-          Página Inicial
-        </a>
-        <a
-          href="#"
-          className="text-gray-300 hover:text-white transition-colors"
-        >
-          Explorar Roles
-        </a>
-        <a
-          href="#"
-          className="text-gray-300 hover:text-white transition-colors"
-        >
-          Inducción
-        </a>
-        <a
-          href="#"
-          className="text-gray-300 hover:text-white transition-colors"
-        >
-          Mi Agenda
-        </a>
-        <a
-          href="#"
-          className="text-gray-300 hover:text-white transition-colors"
-        >
-          Diario de Bordo
-        </a>
-        <a
-          href="#"
-          className="text-gray-300 hover:text-white transition-colors"
-        >
-          Navegación Editar
-        </a>
-      </div>
-
-      <div className="flex items-center space-x-4 bg-white/10 px-3 py-1.5 rounded-md">
-        <Search
-          size={18}
-          className="cursor-pointer hover:text-[#ffcc00] transition-colors"
-        />
-        <Settings
-          size={18}
-          className="cursor-pointer hover:text-[#ffcc00] transition-colors"
-        />
-        <User
-          size={18}
-          className="cursor-pointer hover:text-[#ffcc00] transition-colors"
-        />
-      </div>
-      <button className="bg-white text-[#00204a] text-xs font-bold px-4 py-2 rounded shadow hover:bg-gray-100 transition-colors hidden sm:block">
-        Publicar cambios
-      </button>
+    
     </div>
   </nav>
 );
@@ -148,34 +200,6 @@ const QuickAccess = () => (
   </section>
 );
 
-const IconsBanner = () => {
-  const icons = [
-    { Icon: Rocket, bg: 'bg-[#ffcc00]', color: 'text-black' },
-    { Icon: BarChart2, bg: 'bg-white', color: 'text-black' },
-    { Icon: CheckCircle, bg: 'bg-[#d4a373]', color: 'text-black' }, // Tono café claro de la imagen
-    { Icon: Users, bg: 'bg-[#111111]', color: 'text-[#ffcc00]' },
-    { Icon: Coffee, bg: 'bg-[#ffcc00]', color: 'text-black' },
-    { Icon: Target, bg: 'bg-white', color: 'text-black' },
-    { Icon: Box, bg: 'bg-[#d4a373]', color: 'text-black' },
-    { Icon: PiggyBank, bg: 'bg-[#111111]', color: 'text-[#ffcc00]' },
-    { Icon: Clock, bg: 'bg-[#ffcc00]', color: 'text-black' },
-    { Icon: AlertTriangle, bg: 'bg-white', color: 'text-black' },
-  ];
-
-  return (
-    <div className="grid grid-cols-5 md:grid-cols-10 h-24">
-      {icons.map((item, i) => (
-        <div
-          key={i}
-          className={`${item.bg} ${item.color} flex items-center justify-center border-r border-black/10 last:border-0`}
-        >
-          <item.Icon size={32} strokeWidth={1.5} />
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const BrandsBanner = () => (
   <section>
     <img
@@ -224,41 +248,237 @@ const BigTitlesSection = () => (
   </section>
 );
 
+const Dashboard = () => {
+  return (
+    <section className="p-8">
+
+      <h2 className="text-3xl font-bold mb-6">
+        Dashboard
+      </h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+        <div className="bg-white rounded-xl shadow p-6 border-l-8 border-green-500">
+          <h3 className="text-4xl font-bold">82</h3>
+          <p>Roles Totales</p>
+        </div>
+
+        <div className="bg-white rounded-xl shadow p-6 border-l-8 border-green-500">
+          <h3 className="text-4xl font-bold">65%</h3>
+          <p>Documentación Vigente</p>
+        </div>
+
+        <div className="bg-white rounded-xl shadow p-6 border-l-8 border-yellow-500">
+          <h3 className="text-4xl font-bold">22</h3>
+          <p>En Revisión</p>
+        </div>
+
+        <div className="bg-white rounded-xl shadow p-6 border-l-8 border-red-500">
+          <h3 className="text-4xl font-bold">7</h3>
+          <p>Vencidos</p>
+        </div>
+
+      </div>
+
+    </section>
+  );
+};
+
 // --- COMPONENTE PRINCIPAL DE TARJETAS DE ROLES (DINÁMICO) ---
 const RolesSection = () => {
   return (
-    <div className="bg-white min-h-screen py-16 px-4 md:px-12 lg:px-24">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-[#111111] mb-2">
-          Últimos Roles Actualizados
-        </h2>
+    <section className="p-8">
 
-        <p className="text-gray-600 mb-12 text-lg">
-          <div className="space-y-4">
-            {rolesData.map((role) => (
-              <div
-                key={role.id}
-                style={{
-                  background: 'white',
-                  padding: '20px',
-                  borderRadius: '12px',
-                  borderLeft: '6px solid #00204a',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                }}
-              >
-                <h3>{role.title}</h3>
+      <h2 className="text-3xl font-bold mb-8">
+        Últimos Roles Actualizados
+      </h2>
 
-                <p>{role.areaInfo}</p>
+      <p className="text-gray-600 mb-8">
+        Visualiza los roles con actualizaciones recientes en Job Description,
+        Inducción, Agenda o Diario de Bordo.
+      </p>
 
-                <p>Responsable: {role.responsable}</p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        {rolesData.slice(0, 3).map((role) => (
+
+          <div
+            key={role.id}
+            onClick={() =>
+              console.log(`Abrir rol ${role.title}`)
+            }
+            className="
+              bg-white
+              rounded-2xl
+              shadow-lg
+              overflow-hidden
+              hover:shadow-2xl
+              hover:-translate-y-1
+              transition-all
+              cursor-pointer
+            "
+          >
+
+            <div className="p-5 border-b border-gray-200">
+
+              <h3 className="text-xl font-bold text-[#00204a]">
+                {role.title}
+              </h3>
+
+              <p className="text-sm text-gray-300">
+                {role.areaInfo}
+              </p>
+
+              <p className="text-xs text-gray-500 mt-2">
+                Actualizado hace 2 días
+              </p>
+
+            </div>
+
+            <div className="p-5">
+
+              <div className="mb-4">
+                <span className="text-xs text-gray-500">
+                  Dueño
+                </span>
+
+                <div className="flex justify-between items-center mb-4">
+
+                  <span
+                    className="
+                      bg-blue-50
+                      text-[#00204a]
+                      px-3
+                      py-1
+                      rounded-full
+                      text-xs
+                      font-bold
+                    "
+                  >
+                    {role.areaTag}
+                  </span>
+
+                  <span className="text-xs text-gray-500">
+                    Actualizado hoy
+                  </span>
+
+                </div>
+
+                <p className="font-semibold">
+                  {role.responsable}
+                </p>
               </div>
-            ))}
+
+              <div className="flex gap-2 flex-wrap mb-4">
+                <div className="mb-5">
+
+                <div className="flex justify-between text-sm mb-1">
+
+                  <span className="font-medium">
+                    Vigencia General
+                  </span>
+
+                  <span className="font-bold">
+                    {role.statusTag}
+                  </span>
+
+                </div>
+
+                <div className="w-full bg-gray-200 rounded-full h-3">
+
+                  <div
+                    className="bg-green-500 h-3 rounded-full"
+                    style={{
+                      width:
+                        role.statusTag.includes('25')
+                          ? '25%'
+                          : role.statusTag.includes('50')
+                          ? '50%'
+                          : '80%',
+                    }}
+                  />
+
+                </div>
+
+              </div>
+
+
+                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold">
+                  {role.areaTag}
+                </span>
+
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-bold ${role.statusColor}`}
+                >
+                  {role.statusTag}
+                </span>
+
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+
+                {role.documents.map((doc, idx) => (
+
+                  <div
+                    key={idx}
+                    className={`rounded-lg p-3 text-center border ${
+                      doc.isGreen
+                        ? 'bg-green-50 border-green-300'
+                        : 'bg-yellow-50 border-yellow-300'
+                    }`}
+                  >
+
+                    <div className="flex items-center justify-center gap-2">
+
+                      <div
+                        className={`w-3 h-3 rounded-full ${
+                          doc.isGreen
+                            ? 'bg-green-500'
+                            : 'bg-yellow-500'
+                        }`}
+                      />
+
+                      <span
+                        className={`font-bold text-sm ${
+                          doc.isGreen
+                            ? 'text-green-700'
+                            : 'text-yellow-700'
+                        }`}
+                      >
+                        {doc.type}
+                      </span>
+
+                    </div>
+
+                    <div className="text-xs mt-1">
+                      {doc.status}
+                    </div>
+
+                    <div className="text-[10px] text-gray-500 mt-1">
+                      Última actualización
+                    </div>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+              <button
+                className="mt-6 w-full bg-[#00204a] text-white py-3 rounded-lg font-bold hover:bg-blue-900"
+              >
+                Ver ficha completa →
+              </button>
+
+            </div>
+
           </div>
-          Consulta la documentación vigente, inducción, agenda y rutinas
-          asociadas a cada Rol.
-        </p>
+
+        ))}
+
       </div>
-    </div>
+
+    </section>
   );
 };
 
@@ -273,16 +493,96 @@ const Footer = () => (
   />
 );
 
+const currentUser = {
+  nombre: "Sebastian Bahamondes",
+  correo: "correo",
+  rol: "ADMIN"
+}
+
+const VIEWS = {
+  HOME: 'home',
+  ROLES: 'roles',
+  INDUCCION: 'induccion',
+  AGENDA: 'agenda',
+  DIARIO: 'diario',
+  INDICADORES: 'indicadores',
+};
+
 export default function App() {
+
+  const [currentView, setCurrentView] =
+    useState(VIEWS.HOME);
+
+  const [sidebarOpen, setSidebarOpen] =
+    useState(true);
+
+  const renderContent = () => {
+
+    switch (currentView) {
+
+      case VIEWS.ROLES:
+        return <RolesSection />;
+
+      case VIEWS.INDUCCION:
+        return <h1 className="p-8">Inducción</h1>;
+
+      case VIEWS.AGENDA:
+        return <h1 className="p-8">Agenda</h1>;
+
+      case VIEWS.DIARIO:
+        return <h1 className="p-8">Diario de Bordo</h1>;
+
+      case VIEWS.INDICADORES:
+        return <h1 className="p-8">Indicadores</h1>;
+
+      default:
+        return (
+          <>
+            <BrandsBanner />
+
+            <QuickAccess />
+
+            <PrinciplesSection />
+
+            <BigTitlesSection />
+
+            <Dashboard />
+
+            <RolesSection />
+          </>
+        );
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#f3f4f6] font-sans selection:bg-[#ffcc00] selection:text-black">
-      <Navbar />
-      <BrandsBanner />
-      <QuickAccess />
-      <PrinciplesSection />
-      <BigTitlesSection />
-      <RolesSection />
-      <Footer />
+
+    <div className="flex bg-[#f3f4f6]">
+
+      <Sidebar
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
+
+      <main
+        className={`
+          flex-1
+          transition-all
+          duration-300
+          ${sidebarOpen ? 'ml-64' : 'ml-20'}
+        `}
+      >
+
+        <Navbar />
+
+        {renderContent()}
+
+        <Footer />
+
+      </main>
+
     </div>
+
   );
 }
